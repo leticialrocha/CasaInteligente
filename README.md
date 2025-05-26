@@ -1,66 +1,89 @@
-# CasaInteligente
-Projeto da Casa Inteligente com o Servidor broker Mosquitto
-Para a entrega do projeto, vamos evoluir a aplicação desenvolvida ao longo desta Sprint, utilizando o sensor DHT11 em conjunto com o display OLED para monitorar a umidade e a temperatura.
-Também vamos monitorar a umidade e a temperatura, verificar se a porta principal está aberta ou fechada e acender o LED que representa a luz da casa através do aplicativo MQTT Dash ou similar. A média dos valores coletados para temperatura e umidade será apresentada tanto no OLED quanto nos dispositivos clientes usando o protocolo MQTT.
-Materiais para o projeto com o ESP32:
-1 × Placa ESP32
+# 🏠 Projeto Casa Inteligente com ESP32 e Broker Mosquitto
 
-1 × Cabo de comunicação USB para o ESP32
+Este projeto é uma solução de automação residencial utilizando o microcontrolador **ESP32**, o protocolo **MQTT** com o **broker Mosquitto**, e sensores para monitoramento ambiental. A aplicação permite monitorar **temperatura**, **umidade** e o **estado da porta principal**, além de controlar uma **luz (LED)** remotamente via aplicativo como **MQTT Dash**.
 
-8 × Jumpers Macho-Macho
+## 📋 Funcionalidades
 
-1 × Jumper Macho-Fêmea
+- Leitura de **temperatura e umidade** com o sensor **DHT11**
+- Exibição das leituras em um **display OLED**
+- Monitoramento do **estado da porta** (aberta ou fechada) com sensor magnético
+- Controle de **luz (LED)** remotamente via MQTT
+- **Média de temperatura e umidade** publicada para clientes MQTT e exibida no OLED
 
-1 × Sensor magnético com fio para alarme (MC-38)
+---
 
-1 × Protoboard
+## 🧰 Materiais Utilizados
 
-1 × LED
+| Quantidade | Componente                         |
+|------------|-------------------------------------|
+| 1x         | Placa ESP32                         |
+| 1x         | Cabo USB para ESP32                 |
+| 8x         | Jumpers macho-macho                 |
+| 1x         | Jumper macho-fêmea                  |
+| 1x         | Sensor magnético (MC-38)            |
+| 1x         | Protoboard                          |
+| 1x         | LED                                 |
+| 1x         | Resistor 330 ohms                   |
+| 1x         | Display OLED                        |
+| 1x         | Sensor DHT11                        |
 
-1 × Resistor 330 ohms (laranja, laranja, marrom, dourado)
+---
 
-1 × Display OLED
+## 📚 Bibliotecas Utilizadas
 
-1 × Sensor DHT11
+- `WiFi` *(nativa da IDE Arduino)*
+- `Wire` *(nativa da IDE Arduino)*
+- `PubSubClient` – por Nick O'Leary
+- `DHT sensor library`
+- `U8g2` – por Oliver
 
-Bibliotecas utilizadas:
-WiFi (nativa da IDE)
+---
 
-PubSubClient – por Nick O'Leary
+## 📌 Esquema de Ligações
 
-DHT sensor library
+### 🔌 LED
+- GPIO 2 → Resistor 330Ω → LED → GND
 
-U8g2 – por Oliver
+### 🚪 Sensor Magnético (MC-38)
+- GPIO 5 → Módulo MC-38
+- GND (ESP32) → Comum (MC-38 e LED)
 
-Wire (nativa da IDE)
+### 🌡️ Sensor DHT11
+- GPIO 13 → DATA (Sinal)
+- VIN (ESP32) → VCC (DHT11)
+- GND → GND (DHT11)
 
-Esquema de ligação das GPIO do ESP32:
-GPIO 2 → Resistor + LED (220 ou 330 ohms)
+### 📺 Display OLED
+- GPIO 21 → SDA (OLED)
+- GPIO 22 → SCL (OLED)
+- VIN (ESP32) → VCC (OLED)
+- GND → GND (OLED)
 
-GPIO 5 → Módulo MC-38
+---
 
-GND (ESP32) → Protoboard (comum para o módulo MC-38)
+## 🌐 Comunicação MQTT
 
-GND (ESP32) → Protoboard (comum para o LED)
+A comunicação é realizada via protocolo MQTT utilizando o **broker Mosquitto**. As leituras de sensores e comandos são enviados/recebidos por tópicos MQTT definidos na aplicação. É possível utilizar aplicativos como **MQTT Dash** para visualizar dados e interagir com o sistema.
 
-Esquema de ligação das portas do sensor magnético:
-GND (ESP32) → GPIO 5 (ESP32)
+---
 
-Esquema de ligação do LED:
-GPIO 4 (ESP32) → Resistor + LED → GND
+## 📱 Aplicativo Cliente Sugerido
 
-Esquema de ligação do OLED:
-GPIO 21 (ESP32) → SDA
+- **MQTT Dash (Android)** ou outro cliente MQTT para visualização em tempo real das leituras e controle do LED.
 
-GPIO 22 (ESP32) → SCL
+---
 
-GND (ESP32) → GND (OLED)
+## 📊 Exibição de Dados
 
-VIN (ESP32) → VCC (OLED)
+A média das leituras de **temperatura** e **umidade** é:
+- Exibida diretamente no **display OLED**
+- Publicada periodicamente nos tópicos MQTT para acesso remoto
 
-Esquema de ligação do DHT11:
-GPIO 13 (ESP32) → Sinal (DATA)
+---
 
-GND (ESP32) → GND (DHT11)
+## ✅ Conclusão
 
-VIN (ESP32) → VCC (DHT11)
+Este projeto integra sensores, displays e comunicação remota para criar uma base funcional de uma **casa inteligente**, utilizando o ESP32 e tecnologias modernas de IoT.
+
+---
+
